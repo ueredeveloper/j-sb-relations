@@ -14,29 +14,33 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 @Entity
 @Table(name = "processo")
 public class ProcessoModel {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "proc_id")
-    private Long processoId;
+    @Column()
+    private Long procId;
     
-    @Column
+    @Column()
     private String procDescricao;
 
     // Other attributes of ProcessoModel
 
-    @OneToMany(mappedBy = "processo", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<DocumentoModel> documentos;
+    @OneToMany(mappedBy = "docProcId", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("docProcId") // Ignore serialization of this property in DocumentoModel
+    private List<DocumentoModel> procDocumentos;
     
-    @OneToMany(mappedBy = "processo", cascade = CascadeType.ALL, orphanRemoval = true)
-    private List<ProcessoModel> processos;
+    @OneToMany(mappedBy = "procPrincipal", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonIgnoreProperties("procPrincipal") // Ignore serialization of this property in DocumentoModel
+    private List<ProcessoModel> procProcessos;
     
     @ManyToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "proc_principal") // Corrected column name
-	private ProcessoModel processo;
+	@JoinColumn(name = "procPrincipal") // Corrected column name
+	private ProcessoModel procPrincipal;
     
     public ProcessoModel () {
     	super();
@@ -47,28 +51,18 @@ public class ProcessoModel {
 		this.procDescricao = procDescricao;
 	}
 	
-
-
-	public ProcessoModel(String procDescricao, ProcessoModel processo) {
+	public ProcessoModel(String procDescricao, ProcessoModel procPrincipal) {
 		super();
 		this.procDescricao = procDescricao;
-		this.processo = processo;
+		this.procPrincipal = procPrincipal;
 	}
 
-	public Long getProcessoId() {
-		return processoId;
+	public Long getProcId() {
+		return procId;
 	}
 
-	public void setProcessoId(Long processoId) {
-		this.processoId = processoId;
-	}
-
-	public List<DocumentoModel> getDocumentos() {
-		return documentos;
-	}
-
-	public void setDocumentos(List<DocumentoModel> documentos) {
-		this.documentos = documentos;
+	public void setProcId(Long procId) {
+		this.procId = procId;
 	}
 
 	public String getProcDescricao() {
@@ -78,12 +72,33 @@ public class ProcessoModel {
 	public void setProcDescricao(String procDescricao) {
 		this.procDescricao = procDescricao;
 	}
-	
-	
 
-    // Constructors, getters, setters, and other methods
-    
-    
+
+	public List<DocumentoModel> getProcDocumentos() {
+		return procDocumentos;
+	}
+
+	public void setProcDocumentos(List<DocumentoModel> procDocumentos) {
+		this.procDocumentos = procDocumentos;
+	}
+
+	public List<ProcessoModel> getProcProcessos() {
+		return procProcessos;
+	}
+
+	public void setProcProcessos(List<ProcessoModel> procProcessos) {
+		this.procProcessos = procProcessos;
+	}
+
+	public ProcessoModel getProcPrincipal() {
+		return procPrincipal;
+	}
+
+	public void setProcPrincipal(ProcessoModel procPrincipal) {
+		this.procPrincipal = procPrincipal;
+	}
+
+	
 }
 
 

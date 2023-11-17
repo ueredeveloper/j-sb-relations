@@ -30,13 +30,13 @@ public class DataLoader implements CommandLineRunner {
 
     private void createInitialDocumentos() {
         DocumentoModel documento1 = new DocumentoModel();
-        documento1.setNumSEI("SEI-001");
+        documento1.setDocNumSEI("SEI-001");
 
         DocumentoModel documento2 = new DocumentoModel();
-        documento2.setNumSEI("SEI-002");
+        documento2.setDocNumSEI("SEI-002");
 
         DocumentoModel documento3 = new DocumentoModel();
-        documento3.setNumSEI("SEI-003");
+        documento3.setDocNumSEI("SEI-003");
 
         documentoRepository.saveAll(Arrays.asList(documento1, documento2, documento3));
         
@@ -45,10 +45,12 @@ public class DataLoader implements CommandLineRunner {
         
         processoRepository.save(proc1);
         
-        DocumentoModel doc4 = new DocumentoModel();
-        doc4.setProcesso(new ProcessoModel("197", proc1));
+      /*  ProcessoModel procResponse = processoRepository.save(proc1);
         
-       documentoRepository.save(doc4);
+        DocumentoModel doc4 = new DocumentoModel();
+        doc4.setProcesso(new ProcessoModel("197", procResponse));
+        
+       documentoRepository.save(doc4);*/
     }
 }
 
